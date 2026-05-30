@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ABIA Music | J-POPピアノカバー・楽譜販売</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+  <!-- SVG icons via unpkg -->
+  <script src="https://unpkg.com/feather-icons"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #f4f2fa;
+      --white: #ffffff;
+      --text: #2e2844;
+      --muted: #7a7090;
+      --accent: #7B68C8;
+      --accent-dark: #5a4fa8;
+      --accent2: #9b84e0;
+      --border: #ddd8f0;
+    }
+
+    body {
+      font-family: 'Noto Sans JP', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      font-size: 14px;
+      line-height: 1.7;
+    }
+
+    /* ── NAV ── */
+    nav {
+      background: var(--white);
+      border-bottom: 2px solid var(--accent);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    nav a {
+      display: block;
+      padding: 14px 18px;
+      color: var(--text);
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 700;
+      transition: background 0.2s, color 0.2s;
+    }
+    nav a:hover { background: var(--accent); color: #fff; }
+
+    /* ── HEADER ── */
+    header {
+      background: linear-gradient(135deg, #ede9f8 0%, #f8f6ff 60%, #e8e2f5 100%);
+      position: relative;
+      text-align: center;
+      padding: 32px 20px 24px;
+      overflow: hidden;
+      border-bottom: 3px solid var(--accent);
+    }
+    .note-bg {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-around;
+      pointer-events: none;
+      opacity: 0.08;
+      font-size: 48px;
+      gap: 10px;
+      padding: 10px;
+      color: var(--accent);
+    }
+    header img.logo-header {
+      max-width: 420px;
+      width: 70%;
+      max-height: 120px;
+      object-fit: contain;
+      position: relative;
+      display: block;
+      margin: 0 auto;
+    }
+    header p.tagline {
+      color: var(--muted);
+      font-size: 13px;
+      margin-top: 8px;
+      position: relative;
+      letter-spacing: 0.04em;
+    }
+
+    /* ── LAYOUT ── */
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 24px 16px;
+      display: grid;
+      grid-template-columns: 1fr 200px;
+      gap: 24px;
+    }
+    @media (max-width: 700px) {
+      .container { grid-template-columns: 1fr; }
+      aside { display: none; }
+    }
+
+    /* ── PROFILE CARD ── */
+    .profile-card {
+      background: var(--white);
+      border-radius: 8px;
+      padding: 28px 24px;
+      text-align: center;
+      margin-bottom: 20px;
+      border: 1px solid var(--border);
+    }
+    .avatar {
+      width: 150px;
+      height: 150px;
+      border-radius: 20px;
+      margin: 0 auto 14px;
+      border: 3px solid var(--accent);
+      background: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 16px rgba(123,104,200,0.3);
+      overflow: hidden;
+    }
+    .avatar img {
+      width: 85%;
+      height: 85%;
+      object-fit: contain;
+      display: block;
+    }
+    .profile-card h2 { font-size: 16px; font-weight: 700; margin-bottom: 4px; }
+    .profile-card .role { color: var(--muted); font-size: 12px; margin-bottom: 10px; }
+    .profile-card p { font-size: 13px; margin-bottom: 14px; }
+
+    .sns-icons {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin-bottom: 16px;
+      flex-wrap: wrap;
+    }
+    .sns-icons a {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background: #eee;
+      color: var(--text);
+      text-decoration: none;
+      font-size: 15px;
+      font-weight: 700;
+      transition: background 0.2s, color 0.2s;
+      text-transform: none;
+    }
+    .sns-icons a:hover { background: var(--accent); color: #fff; }
+    /* brand colors on hover */
+    .sns-icons a.yt:hover  { background: #ff0000; }
+    .sns-icons a.x:hover   { background: #000; }
+    .sns-icons a.ig:hover  { background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%,#d6249f 60%,#285AEB 90%); }
+
+    .btn-subscribe {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--accent);
+      color: #fff;
+      padding: 9px 24px;
+      border-radius: 20px;
+      font-weight: 700;
+      font-size: 13px;
+      text-decoration: none;
+      transition: background 0.2s;
+      box-shadow: 0 2px 8px rgba(123,104,200,0.3);
+    }
+    .btn-subscribe:hover { background: var(--accent-dark); }
+
+    /* ── SECTION ── */
+    section {
+      background: var(--white);
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+    .section-title {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 16px;
+      font-weight: 700;
+      margin-bottom: 16px;
+      padding-bottom: 10px;
+      border-bottom: 2px solid var(--accent);
+      color: var(--accent-dark);
+    }
+    .section-title .bar {
+      width: 6px;
+      height: 22px;
+      background: linear-gradient(to bottom, var(--accent), var(--accent2));
+      border-radius: 3px;
+      flex-shrink: 0;
+    }
+
+    /* ── VIDEO GRID ── */
+    .video-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 14px;
+    }
+    .video-card {
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      overflow: hidden;
+      text-decoration: none;
+      color: inherit;
+      display: block;
+      transition: box-shadow 0.2s;
+    }
+    .video-card:hover { box-shadow: 0 4px 12px rgba(0,0,0,0.12); }
+    .video-thumb {
+      width: 100%;
+      aspect-ratio: 16/9;
+      background: #ddd;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 32px;
+      color: #999;
+      overflow: hidden;
+    }
+    .video-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .video-info { padding: 8px 10px; }
+    .video-info .title { font-size: 13px; font-weight: 700; margin-bottom: 2px; }
+    .video-info .meta { font-size: 11px; color: var(--muted); }
+
+    .btn-more {
+      display: inline-block;
+      margin-top: 14px;
+      padding: 7px 20px;
+      border: 2px solid var(--accent);
+      border-radius: 20px;
+      color: var(--accent);
+      font-weight: 700;
+      font-size: 12px;
+      text-decoration: none;
+      transition: background 0.2s, color 0.2s;
+    }
+    .btn-more:hover { background: var(--accent); color: #fff; }
+
+    /* ── SCORE GRID ── */
+    .score-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 14px;
+    }
+    .score-card {
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      overflow: hidden;
+      text-decoration: none;
+      color: inherit;
+      display: flex;
+      flex-direction: column;
+      transition: box-shadow 0.2s;
+    }
+    .score-card:hover { box-shadow: 0 4px 12px rgba(0,0,0,0.12); }
+    .score-thumb {
+      width: 100%;
+      aspect-ratio: 3/4;
+      background: linear-gradient(135deg, #ede9f8, #d4cdf0);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 48px;
+      color: var(--accent);
+    }
+    .score-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .score-info { padding: 10px; flex: 1; display: flex; flex-direction: column; gap: 4px; }
+    .score-info .title { font-size: 13px; font-weight: 700; }
+    .level-badge {
+      font-size: 11px;
+      color: #fff;
+      background: var(--accent);
+      display: inline-block;
+      padding: 1px 8px;
+      border-radius: 10px;
+      width: fit-content;
+    }
+    .score-info .price { font-size: 13px; font-weight: 700; color: var(--accent-dark); margin-top: auto; }
+
+    /* ── OTHERS ── */
+    .others-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 14px;
+    }
+    .others-card {
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      overflow: hidden;
+      text-decoration: none;
+      color: inherit;
+      transition: box-shadow 0.2s;
+      display: flex;
+      flex-direction: column;
+    }
+    .others-card:hover { box-shadow: 0 4px 12px rgba(0,0,0,0.12); }
+    .others-thumb {
+      width: 100%;
+      aspect-ratio: 16/9;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 36px;
+    }
+    .others-thumb.audiostock { background: linear-gradient(135deg, #2d1f5e, #4a3580); color: #e0c8ff; }
+    .others-thumb.apple     { background: linear-gradient(135deg, #1a1028, #2d1f4a); color: #fc3c44; }
+    .others-thumb.spotify   { background: linear-gradient(135deg, #1a1028, #231538); color: #1db954; }
+    .others-thumb.ytmusic   { background: linear-gradient(135deg, #2d1040, #3a1555); color: #ff4444; }
+    .others-info { padding: 12px; flex: 1; }
+    .others-info .tag {
+      font-size: 10px;
+      background: #eee;
+      padding: 1px 8px;
+      border-radius: 10px;
+      margin-bottom: 5px;
+      display: inline-block;
+      color: var(--muted);
+    }
+    .others-info .title { font-size: 13px; font-weight: 700; }
+    .others-info .desc { font-size: 11px; color: var(--muted); margin-top: 3px; }
+
+    /* ── SIDEBAR ── */
+    aside { position: sticky; top: 60px; align-self: start; }
+    .sidebar-menu {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    .sidebar-menu a {
+      display: block;
+      padding: 10px 16px;
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--text);
+      text-decoration: none;
+      border-bottom: 1px solid var(--border);
+      transition: background 0.15s;
+    }
+    .sidebar-menu a:last-child { border-bottom: none; }
+    .sidebar-menu a:hover { background: #f0ecfb; color: var(--accent-dark); }
+
+    /* ── FOOTER ── */
+    footer {
+      text-align: center;
+      padding: 24px 16px;
+      font-size: 12px;
+      color: var(--muted);
+      border-top: 1px solid var(--border);
+      background: var(--white);
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#home">HOME</a>
+  <a href="#youtube">YouTubeチャンネル</a>
+  <a href="#scores">楽譜販売</a>
+  <a href="#others">Others</a>
+  <a href="#profile">プロフィール</a>
+  <a href="#contact">お問い合わせ</a>
+</nav>
+
+<!-- HEADER -->
+<header id="home">
+  <div class="note-bg">
+    ♩ ♪ ♫ ♬ ♩ ♪ ♫ ♬ ♩ ♪ ♫ ♬
+    ♪ ♫ ♬ ♩ ♪ ♫ ♬ ♩ ♪ ♫ ♬ ♩
+    ♫ ♬ ♩ ♪ ♫ ♬ ♩ ♪ ♫ ♬ ♩ ♪
+  </div>
+  <img src="images/ABIAmusic_Logo01.png" alt="ABIA Music" class="logo-header">
+  <p class="tagline">J-POPピアノカバー ／ 耳コピアレンジ楽譜</p>
+</header>
+
+<!-- MAIN LAYOUT -->
+<div class="container">
+  <main>
+
+    <!-- PROFILE -->
+    <div class="profile-card" id="profile">
+      <div class="avatar"><img src="images/ABIAmusic_Logo02-icon.png" alt="ABIA Music"></div>
+      <h2>ABIA &nbsp;｜&nbsp; ピアノカバークリエイター</h2>
+      <div class="role">Piano Cover Creator</div>
+      <p>
+        J-POPを耳コピしてピアノカバー動画を投稿しています。<br>
+        初級〜上級まで幅広い難易度の楽譜も販売中！<br>
+        毎週1本更新目標 ✨
+      </p>
+      <div class="sns-icons">
+        <a href="https://www.youtube.com/@abiamusic1989" target="_blank" rel="noopener" title="YouTube" class="yt">▶</a>
+        <a href="https://x.com/ABIA1989" target="_blank" rel="noopener" title="X (Twitter)" class="x">𝕏</a>
+        <a href="https://www.instagram.com/abia_music" target="_blank" rel="noopener" title="Instagram" class="ig">📷</a>
+      </div>
+      <a href="https://www.youtube.com/@abiamusic1989?sub_confirmation=1" target="_blank" rel="noopener" class="btn-subscribe">
+        ▶ チャンネル登録
+      </a>
+    </div>
+
+    <!-- YOUTUBE -->
+    <section id="youtube">
+      <div class="section-title">
+        <span class="bar"></span>YouTube メインチャンネル
+      </div>
+      <div class="video-grid">
+        <a href="https://www.youtube.com/@abiamusic1989" target="_blank" rel="noopener" class="video-card">
+          <div class="video-thumb">🎬</div>
+          <div class="video-info">
+            <div class="title">最新動画をチェック</div>
+            <div class="meta">J-POPピアノカバー</div>
+          </div>
+        </a>
+        <a href="https://www.youtube.com/@abiamusic1989/videos" target="_blank" rel="noopener" class="video-card">
+          <div class="video-thumb">🎹</div>
+          <div class="video-info">
+            <div class="title">動画一覧を見る</div>
+            <div class="meta">耳コピアレンジ</div>
+          </div>
+        </a>
+        <a href="https://www.youtube.com/@abiamusic1989/playlists" target="_blank" rel="noopener" class="video-card">
+          <div class="video-thumb">📋</div>
+          <div class="video-info">
+            <div class="title">プレイリスト</div>
+            <div class="meta">難易度別・アーティスト別</div>
+          </div>
+        </a>
+      </div>
+      <a href="https://www.youtube.com/@abiamusic1989" target="_blank" rel="noopener" class="btn-more">▶ YouTubeチャンネルを見る</a>
+    </section>
+
+    <!-- SCORES -->
+    <section id="scores">
+      <div class="section-title">
+        <span class="bar"></span>楽譜販売（Piascore）
+      </div>
+      <p style="font-size:13px; color:var(--muted); margin-bottom:16px;">
+        演奏動画と同じアレンジの楽譜をPiascoreで販売しています。購入後すぐにダウンロードできます。
+      </p>
+      <div class="score-grid">
+        <a href="https://store.piascore.com/search?c=2125" target="_blank" rel="noopener" class="score-card">
+          <div class="score-thumb">🎼</div>
+          <div class="score-info">
+            <div class="title">初級〜上級まで幅広く</div>
+            <span class="level-badge">初級〜上級</span>
+            <div class="price">Piascoreで見る →</div>
+          </div>
+        </a>
+        <a href="https://store.piascore.com/search?c=2125" target="_blank" rel="noopener" class="score-card">
+          <div class="score-thumb">🎵</div>
+          <div class="score-info">
+            <div class="title">連弾アレンジも収録</div>
+            <span class="level-badge">連弾</span>
+            <div class="price">Piascoreで見る →</div>
+          </div>
+        </a>
+        <a href="https://store.piascore.com/search?c=2125" target="_blank" rel="noopener" class="score-card">
+          <div class="score-thumb">📄</div>
+          <div class="score-info">
+            <div class="title">楽譜ラインナップ一覧</div>
+            <span class="level-badge">全難易度</span>
+            <div class="price">Piascoreで見る →</div>
+          </div>
+        </a>
+      </div>
+      <a href="https://store.piascore.com/search?c=2125" target="_blank" rel="noopener" class="btn-more">📄 楽譜一覧をPiascoreで見る</a>
+    </section>
+
+    <!-- OTHERS -->
+    <section id="others">
+      <div class="section-title">
+        <span class="bar"></span>Others その他
+      </div>
+      <p style="font-size:13px; color:var(--muted); margin-bottom:16px;">
+        ピアノカバー以外の活動もご紹介します。オリジナル楽曲・BGM素材など。
+      </p>
+      <div class="others-grid">
+        <a href="https://audiostock.jp/artists/20319" target="_blank" rel="noopener" class="others-card">
+          <div class="others-thumb audiostock">🎧</div>
+          <div class="others-info">
+            <div class="tag">BGM素材 / ストックミュージック</div>
+            <div class="title">Audiostock</div>
+            <div class="desc">BGM・効果音素材を販売中</div>
+          </div>
+        </a>
+        <a href="https://music.apple.com/jp/artist/abia/1474601909" target="_blank" rel="noopener" class="others-card">
+          <div class="others-thumb apple">🍎</div>
+          <div class="others-info">
+            <div class="tag">オリジナル楽曲</div>
+            <div class="title">Apple Music</div>
+            <div class="desc">オリジナル楽曲を配信中</div>
+          </div>
+        </a>
+        <a href="https://open.spotify.com/intl-ja/artist/6sruQzkUWuZ383TDy26a9y" target="_blank" rel="noopener" class="others-card">
+          <div class="others-thumb spotify">🎵</div>
+          <div class="others-info">
+            <div class="tag">オリジナル楽曲</div>
+            <div class="title">Spotify</div>
+            <div class="desc">オリジナル楽曲を配信中</div>
+          </div>
+        </a>
+        <a href="https://music.youtube.com/channel/UC52dW1MCYl12DXSij5h4tqA" target="_blank" rel="noopener" class="others-card">
+          <div class="others-thumb ytmusic">▶</div>
+          <div class="others-info">
+            <div class="tag">オリジナル楽曲</div>
+            <div class="title">YouTube Music</div>
+            <div class="desc">オリジナル楽曲を配信中</div>
+          </div>
+        </a>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact">
+      <div class="section-title">
+        <span class="bar"></span>お問い合わせ
+      </div>
+      <p style="font-size:13px;">
+        楽譜のリクエスト・お仕事のご依頼などは各SNSのDMまでお気軽にどうぞ。
+      </p>
+      <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:14px;">
+        <a href="https://x.com/ABIA1989" target="_blank" rel="noopener" class="btn-more">𝕏 X (Twitter) DM</a>
+        <a href="https://www.instagram.com/abia_music" target="_blank" rel="noopener" class="btn-more">📷 Instagram DM</a>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- SIDEBAR -->
+  <aside>
+    <div class="sidebar-menu">
+      <a href="#home">🏠 HOME</a>
+      <a href="#youtube">▶ YouTubeチャンネル</a>
+      <a href="#scores">🎼 楽譜販売</a>
+      <a href="#others">✨ Others</a>
+      <a href="#profile">👤 プロフィール</a>
+      <a href="#contact">✉ お問い合わせ</a>
+    </div>
+  </aside>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <p>© 2024 ABIA Music. All rights reserved.</p>
+</footer>
+
+</body>
+</html>
