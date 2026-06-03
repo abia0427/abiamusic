@@ -486,6 +486,14 @@
           <div class="video-thumb"><img src="https://img.youtube.com/vi/DFVHiJbtSxo/mqdefault.jpg" alt="夏の終わりのハーモニー"></div>
           <div class="video-info"><div class="title">【楽譜あり】夏の終わりのハーモニー/安全地帯/piano</div><div class="meta">中級</div></div>
         </a>
+        <a href="https://youtu.be/_WC6O5xDHNM" target="_blank" rel="noopener" class="video-card">
+          <div class="video-thumb"><img src="https://img.youtube.com/vi/_WC6O5xDHNM/mqdefault.jpg" alt="てをつなごう"></div>
+          <div class="video-info"><div class="title">【楽譜あり】てをつなごう/槇原敬之/piano</div><div class="meta">初級</div></div>
+        </a>
+        <a href="https://youtu.be/pBn_TfNL484" target="_blank" rel="noopener" class="video-card">
+          <div class="video-thumb"><img src="https://img.youtube.com/vi/pBn_TfNL484/mqdefault.jpg" alt="人生のメリーゴーランド"></div>
+          <div class="video-info"><div class="title">【楽譜あり】人生のメリーゴーランド/久石譲/piano</div><div class="meta">初級</div></div>
+        </a>
       </div>
     </section>
 
@@ -681,7 +689,7 @@
       const videoId = e.querySelector('videoId') ? e.querySelector('videoId').textContent
                     : e.querySelector('id').textContent.split(':').pop();
       return !/shorts/i.test(title) && !SHORTS_IDS.includes(videoId);
-    }).slice(0, 4);
+    }).slice(0, 6);
     if (!entries.length) return;
 
     const grid = document.getElementById('video-grid');
