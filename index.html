@@ -57,28 +57,28 @@
       background: linear-gradient(135deg, #ede9f8 0%, #f8f6ff 60%, #e8e2f5 100%);
       position: relative;
       text-align: center;
-      padding: 32px 20px 24px;
+      padding: 48px 20px 36px;
       overflow: hidden;
       border-bottom: 3px solid var(--accent);
     }
     .note-bg {
       position: absolute;
       inset: 0;
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      justify-content: space-around;
       pointer-events: none;
-      opacity: 0.08;
-      font-size: 48px;
-      gap: 10px;
-      padding: 10px;
+      overflow: hidden;
+    }
+    .note-bg span {
+      position: absolute;
       color: var(--accent);
+      opacity: 0.18;
+      font-size: 64px;
+      line-height: 1;
+      user-select: none;
     }
     header img.logo-header {
-      max-width: 420px;
-      width: 70%;
-      max-height: 120px;
+      max-width: 1000px;
+      width: 95%;
+      max-height: 340px;
       object-fit: contain;
       position: relative;
       display: block;
@@ -104,6 +104,7 @@
     @media (max-width: 700px) {
       .container { grid-template-columns: 1fr; }
       aside { display: none; }
+      .score-grid { grid-template-columns: repeat(2, 1fr); }
     }
 
     /* ── PROFILE CARD ── */
@@ -258,7 +259,7 @@
     /* ── SCORE GRID ── */
     .score-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      grid-template-columns: repeat(5, 1fr);
       gap: 14px;
     }
     .score-card {
@@ -303,40 +304,61 @@
       gap: 14px;
     }
     .others-card {
-      border: 1px solid var(--border);
-      border-radius: 6px;
+      border-radius: 10px;
       overflow: hidden;
       text-decoration: none;
       color: inherit;
-      transition: box-shadow 0.2s;
-      display: flex;
-      flex-direction: column;
+      transition: transform 0.2s, box-shadow 0.2s;
+      display: block;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.12);
     }
-    .others-card:hover { box-shadow: 0 4px 12px rgba(0,0,0,0.12); }
+    .others-card:hover { transform: translateY(-3px); box-shadow: 0 6px 20px rgba(0,0,0,0.18); }
     .others-thumb {
       width: 100%;
       aspect-ratio: 16/9;
+      position: relative;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 36px;
+      overflow: hidden;
     }
-    .others-thumb.audiostock { background: linear-gradient(135deg, #2d1f5e, #4a3580); color: #e0c8ff; }
-    .others-thumb.apple     { background: linear-gradient(135deg, #1a1028, #2d1f4a); color: #fc3c44; }
-    .others-thumb.spotify   { background: linear-gradient(135deg, #1a1028, #231538); color: #1db954; }
-    .others-thumb.ytmusic   { background: linear-gradient(135deg, #2d1040, #3a1555); color: #ff4444; }
-    .others-info { padding: 12px; flex: 1; }
-    .others-info .tag {
-      font-size: 10px;
-      background: #eee;
-      padding: 1px 8px;
-      border-radius: 10px;
-      margin-bottom: 5px;
-      display: inline-block;
-      color: var(--muted);
+    .others-thumb .deco {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
     }
-    .others-info .title { font-size: 13px; font-weight: 700; }
-    .others-info .desc { font-size: 11px; color: var(--muted); margin-top: 3px; }
+    .others-thumb .deco span {
+      position: absolute;
+      font-size: 40px;
+      opacity: 0.18;
+      line-height: 1;
+    }
+    .others-thumb .card-label {
+      position: relative;
+      z-index: 1;
+      font-size: 22px;
+      font-weight: 900;
+      color: #fff;
+      text-shadow: 0 2px 8px rgba(0,0,0,0.3);
+      line-height: 1.2;
+      letter-spacing: 0.05em;
+    }
+    .others-thumb.original   { background: linear-gradient(135deg, #a78bfa 0%, #7c3aed 50%, #6d28d9 100%); }
+    .others-thumb.audiostock { background: linear-gradient(135deg, #38bdf8 0%, #0ea5e9 50%, #0284c7 100%); }
+    .others-branding {
+      position: absolute;
+      top: 8px;
+      left: 10px;
+      z-index: 2;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      background: rgba(0,0,0,0.35);
+      border-radius: 20px;
+      padding: 3px 8px;
+    }
+    .others-branding .icon { font-size: 12px; }
+    .others-branding .name { font-size: 10px; font-weight: 700; color: #fff; }
 
     /* ── SIDEBAR ── */
     aside { position: sticky; top: 60px; align-self: start; }
@@ -385,27 +407,51 @@
 <!-- HEADER -->
 <header id="home">
   <div class="note-bg">
-    ♩ ♪ ♫ ♬ ♩ ♪ ♫ ♬ ♩ ♪ ♫ ♬
-    ♪ ♫ ♬ ♩ ♪ ♫ ♬ ♩ ♪ ♫ ♬ ♩
-    ♫ ♬ ♩ ♪ ♫ ♬ ♩ ♪ ♫ ♬ ♩ ♪
+    <!-- ジグザグ配置：上→下→上→下... -->
+    <!-- 上段（ロゴより上） -->
+    <span style="left:3%;  top:5%">♫</span>
+    <span style="left:28%; top:14%">♫</span>
+    <span style="left:54%; top:6%">♫</span>
+    <span style="left:80%; top:15%">♫</span>
+    <!-- 中段左端（ロゴは右寄りなので左端は安全） -->
+    <span style="left:2%;  top:44%">♫</span>
+    <span style="left:2%;  top:70%">♫</span>
+    <!-- 中段右端 -->
+    <span style="left:87%; top:38%">♫</span>
+    <span style="left:87%; top:65%">♫</span>
+    <!-- 下段（ロゴより下） -->
+    <span style="left:15%; top:82%">♫</span>
+    <span style="left:43%; top:85%">♫</span>
+    <span style="left:70%; top:80%">♫</span>
   </div>
   <img src="images/logo_header.png" alt="ABIA Music" class="logo-header">
-  <p class="tagline">J-POPピアノカバー ／ 耳コピアレンジ楽譜</p>
 </header>
 
 <!-- MAIN LAYOUT -->
 <div class="container">
   <main>
 
+    <!-- NEWS -->
+    <section id="news" style="margin-bottom:20px;">
+      <div class="section-title">
+        <span class="bar"></span>お知らせ
+      </div>
+      <ul style="list-style:none; padding:0; margin:0; display:flex; flex-direction:column; gap:10px;">
+        <li style="display:flex; gap:12px; align-items:baseline; font-size:13px; padding-bottom:10px; border-bottom:1px solid var(--border);">
+          <span style="color:var(--muted); font-size:12px; white-space:nowrap;">2026.06.03</span>
+          <span>ホームページを公開しました 🎹</span>
+        </li>
+      </ul>
+    </section>
+
     <!-- PROFILE -->
     <div class="profile-card" id="profile">
       <div class="avatar"><img src="images/ABIAmusic_Logo02-icon.png" alt="ABIA Music"></div>
-      <h2>ABIA &nbsp;｜&nbsp; ピアノカバークリエイター</h2>
-      <div class="role">Piano Cover Creator</div>
+      <h2>ABIA &nbsp;｜&nbsp; Piano Cover Creator</h2>
+      <div class="role">J-POP Piano Cover & Arrangements</div>
       <p>
-        J-POPを耳コピしてピアノカバー動画を投稿しています。<br>
-        初級〜上級まで幅広い難易度の楽譜も販売中！<br>
-        毎週1本更新目標 ✨
+        主に昭和〜平成のJ-POPを耳コピしてピアノカバー動画を投稿しています。<br>
+        初級〜上級まで幅広い難易度の楽譜も販売中！
       </p>
       <div class="sns-icons">
         <a href="https://www.youtube.com/@abiamusic1989" target="_blank" rel="noopener" title="YouTube" class="yt">▶</a>
@@ -417,33 +463,44 @@
       </a>
     </div>
 
+    <!-- PICKUP -->
+    <section id="pickup">
+      <div class="section-title">
+        <span class="bar"></span>ピックアップ
+      </div>
+      <p style="font-size:13px; color:var(--muted); margin-bottom:14px;">特によく聴かれている動画です。</p>
+      <div class="video-grid">
+        <a href="https://youtu.be/ipzwJGpCZIU" target="_blank" rel="noopener" class="video-card">
+          <div class="video-thumb"><img src="https://img.youtube.com/vi/ipzwJGpCZIU/mqdefault.jpg" alt="よるのあと"></div>
+          <div class="video-info"><div class="title">【楽譜あり】よるのあと/adieu(上白石萌歌)/piano</div><div class="meta">中級</div></div>
+        </a>
+        <a href="https://youtu.be/oxptUEsUXq8" target="_blank" rel="noopener" class="video-card">
+          <div class="video-thumb"><img src="https://img.youtube.com/vi/oxptUEsUXq8/mqdefault.jpg" alt="アイノカタチ"></div>
+          <div class="video-info"><div class="title">MISIA/アイノカタチ/ピアノソロ初級</div><div class="meta">初級</div></div>
+        </a>
+        <a href="https://youtu.be/a4zO_0mlT7g" target="_blank" rel="noopener" class="video-card">
+          <div class="video-thumb"><img src="https://img.youtube.com/vi/a4zO_0mlT7g/mqdefault.jpg" alt="パート・オブ・ユア・ワールド"></div>
+          <div class="video-info"><div class="title">【楽譜あり】パート・オブ・ユア・ワールド/リトルマーメイド/piano</div><div class="meta">初級</div></div>
+        </a>
+        <a href="https://youtu.be/DFVHiJbtSxo" target="_blank" rel="noopener" class="video-card">
+          <div class="video-thumb"><img src="https://img.youtube.com/vi/DFVHiJbtSxo/mqdefault.jpg" alt="夏の終わりのハーモニー"></div>
+          <div class="video-info"><div class="title">【楽譜あり】夏の終わりのハーモニー/安全地帯/piano</div><div class="meta">中級</div></div>
+        </a>
+      </div>
+    </section>
+
     <!-- YOUTUBE -->
     <section id="youtube">
       <div class="section-title">
-        <span class="bar"></span>YouTube メインチャンネル
+        <span class="bar"></span>YouTube
       </div>
-      <div class="video-grid">
-        <a href="https://www.youtube.com/@abiamusic1989" target="_blank" rel="noopener" class="video-card">
+      <p style="font-size:13px; color:var(--muted); margin-bottom:14px;">最新のピアノカバー動画をチェック！</p>
+      <div class="video-grid" id="video-grid">
+        <!-- JavaScriptで自動取得 -->
+        <div class="video-card" style="pointer-events:none; opacity:0.5;">
           <div class="video-thumb">🎬</div>
-          <div class="video-info">
-            <div class="title">最新動画をチェック</div>
-            <div class="meta">J-POPピアノカバー</div>
-          </div>
-        </a>
-        <a href="https://www.youtube.com/@abiamusic1989/videos" target="_blank" rel="noopener" class="video-card">
-          <div class="video-thumb">🎹</div>
-          <div class="video-info">
-            <div class="title">動画一覧を見る</div>
-            <div class="meta">耳コピアレンジ</div>
-          </div>
-        </a>
-        <a href="https://www.youtube.com/@abiamusic1989/playlists" target="_blank" rel="noopener" class="video-card">
-          <div class="video-thumb">📋</div>
-          <div class="video-info">
-            <div class="title">プレイリスト</div>
-            <div class="meta">難易度別・アーティスト別</div>
-          </div>
-        </a>
+          <div class="video-info"><div class="title">読み込み中...</div></div>
+        </div>
       </div>
       <a href="https://www.youtube.com/@abiamusic1989" target="_blank" rel="noopener" class="btn-more">▶ YouTubeチャンネルを見る</a>
     </section>
@@ -454,35 +511,61 @@
         <span class="bar"></span>楽譜販売（Piascore）
       </div>
       <p style="font-size:13px; color:var(--muted); margin-bottom:16px;">
-        演奏動画と同じアレンジの楽譜をPiascoreで販売しています。購入後すぐにダウンロードできます。
+        難易度別に楽譜を販売しています。購入後すぐにダウンロードできます。
       </p>
       <div class="score-grid">
-        <a href="https://store.piascore.com/search?c=2125" target="_blank" rel="noopener" class="score-card">
-          <div class="score-thumb">🎼</div>
+        <a href="https://store.piascore.com/search?c=2125&d=1" target="_blank" rel="noopener" class="score-card">
+          <div class="score-thumb" style="background:linear-gradient(135deg,#e8f4e8,#c8e6c9); color:#4caf50; font-size:20px; font-weight:700; flex-direction:column; gap:4px;">
+            ★☆☆☆<br><span style="font-size:16px;">初級</span>
+          </div>
           <div class="score-info">
-            <div class="title">初級〜上級まで幅広く</div>
-            <span class="level-badge">初級〜上級</span>
-            <div class="price">Piascoreで見る →</div>
+            <div class="title">初級の楽譜一覧</div>
+            <span class="level-badge" style="background:#4caf50;">初級</span>
+            <div class="price" style="font-size:11px; color:var(--muted); margin-top:4px;">Piascoreで見る →</div>
           </div>
         </a>
-        <a href="https://store.piascore.com/search?c=2125" target="_blank" rel="noopener" class="score-card">
-          <div class="score-thumb">🎵</div>
+        <a href="https://store.piascore.com/search?c=2125&d=2" target="_blank" rel="noopener" class="score-card">
+          <div class="score-thumb" style="background:linear-gradient(135deg,#e3f2fd,#bbdefb); color:#2196f3; font-size:20px; font-weight:700; flex-direction:column; gap:4px;">
+            ★★☆☆<br><span style="font-size:16px;">初〜中級</span>
+          </div>
           <div class="score-info">
-            <div class="title">連弾アレンジも収録</div>
-            <span class="level-badge">連弾</span>
-            <div class="price">Piascoreで見る →</div>
+            <div class="title">初〜中級の楽譜一覧</div>
+            <span class="level-badge" style="background:#2196f3;">初〜中級</span>
+            <div class="price" style="font-size:11px; color:var(--muted); margin-top:4px;">Piascoreで見る →</div>
           </div>
         </a>
-        <a href="https://store.piascore.com/search?c=2125" target="_blank" rel="noopener" class="score-card">
-          <div class="score-thumb">📄</div>
+        <a href="https://store.piascore.com/search?c=2125&d=3" target="_blank" rel="noopener" class="score-card">
+          <div class="score-thumb" style="background:linear-gradient(135deg,#fff3e0,#ffe0b2); color:#ff9800; font-size:20px; font-weight:700; flex-direction:column; gap:4px;">
+            ★★★☆<br><span style="font-size:16px;">中級</span>
+          </div>
           <div class="score-info">
-            <div class="title">楽譜ラインナップ一覧</div>
-            <span class="level-badge">全難易度</span>
-            <div class="price">Piascoreで見る →</div>
+            <div class="title">中級の楽譜一覧</div>
+            <span class="level-badge" style="background:#ff9800;">中級</span>
+            <div class="price" style="font-size:11px; color:var(--muted); margin-top:4px;">Piascoreで見る →</div>
+          </div>
+        </a>
+        <a href="https://store.piascore.com/search?c=2125&d=4" target="_blank" rel="noopener" class="score-card">
+          <div class="score-thumb" style="background:linear-gradient(135deg,#fce4ec,#f8bbd0); color:#e91e63; font-size:20px; font-weight:700; flex-direction:column; gap:4px;">
+            ★★★★<br><span style="font-size:16px;">中〜上級</span>
+          </div>
+          <div class="score-info">
+            <div class="title">中〜上級の楽譜一覧</div>
+            <span class="level-badge" style="background:#e91e63;">中〜上級</span>
+            <div class="price" style="font-size:11px; color:var(--muted); margin-top:4px;">Piascoreで見る →</div>
+          </div>
+        </a>
+        <a href="https://store.piascore.com/search?c=2125&d=7" target="_blank" rel="noopener" class="score-card">
+          <div class="score-thumb" style="background:linear-gradient(135deg,#ede9f8,#d4cdf0); color:#7b68c8; font-size:20px; font-weight:700; flex-direction:column; gap:4px;">
+            🎹🎹<br><span style="font-size:16px;">連弾</span>
+          </div>
+          <div class="score-info">
+            <div class="title">連弾の楽譜一覧</div>
+            <span class="level-badge" style="background:#7b68c8;">連弾</span>
+            <div class="price" style="font-size:11px; color:var(--muted); margin-top:4px;">Piascoreで見る →</div>
           </div>
         </a>
       </div>
-      <a href="https://store.piascore.com/search?c=2125" target="_blank" rel="noopener" class="btn-more">📄 楽譜一覧をPiascoreで見る</a>
+      <a href="https://store.piascore.com/search?c=2125" target="_blank" rel="noopener" class="btn-more">📄 楽譜をすべて見る</a>
     </section>
 
     <!-- OTHERS -->
@@ -494,36 +577,52 @@
         ピアノカバー以外の活動もご紹介します。オリジナル楽曲・BGM素材など。
       </p>
       <div class="others-grid">
+        <!-- オリジナル楽曲：1枚にまとめ -->
+        <div class="others-card" style="cursor:default;">
+          <div class="others-thumb original">
+
+            <div class="deco">
+              <span style="left:60%;top:10%">♫</span>
+              <span style="left:75%;top:50%">♩</span>
+              <span style="left:50%;top:55%">♪</span>
+              <span style="left:80%;top:15%">♬</span>
+            </div>
+            <div class="card-label">オリジナル楽曲</div>
+          </div>
+          <div class="others-info">
+            <div class="tag">オリジナル楽曲</div>
+            <div class="title" style="margin-bottom:10px;">各サービスで聴く</div>
+            <div style="display:flex; flex-direction:column; gap:7px;">
+              <a href="https://music.apple.com/jp/artist/abia/1474601909" target="_blank" rel="noopener"
+                 style="display:flex; align-items:center; gap:8px; background:#1c1c1e; color:#fff; padding:6px 12px; border-radius:20px; font-size:12px; font-weight:700; text-decoration:none;">
+                🍎 Apple Music
+              </a>
+              <a href="https://open.spotify.com/intl-ja/artist/6sruQzkUWuZ383TDy26a9y" target="_blank" rel="noopener"
+                 style="display:flex; align-items:center; gap:8px; background:#1db954; color:#fff; padding:6px 12px; border-radius:20px; font-size:12px; font-weight:700; text-decoration:none;">
+                🎵 Spotify
+              </a>
+              <a href="https://music.youtube.com/channel/UCbpOQIf2qrJkLlQui__sTQQ" target="_blank" rel="noopener"
+                 style="display:flex; align-items:center; gap:8px; background:#b00000; color:#fff; padding:6px 12px; border-radius:20px; font-size:12px; font-weight:700; text-decoration:none;">
+                ▶ YouTube Music
+              </a>
+            </div>
+          </div>
+        </div>
+        <!-- Audiostock -->
         <a href="https://audiostock.jp/artists/20319" target="_blank" rel="noopener" class="others-card">
-          <div class="others-thumb audiostock">🎧</div>
+          <div class="others-thumb audiostock">
+
+            <div class="deco">
+              <span style="left:60%;top:10%">🎧</span>
+              <span style="left:78%;top:45%">♫</span>
+              <span style="left:55%;top:55%">♩</span>
+            </div>
+            <div class="card-label">Audiostock</div>
+          </div>
           <div class="others-info">
             <div class="tag">BGM素材 / ストックミュージック</div>
             <div class="title">Audiostock</div>
             <div class="desc">BGM・効果音素材を販売中</div>
-          </div>
-        </a>
-        <a href="https://music.apple.com/jp/artist/abia/1474601909" target="_blank" rel="noopener" class="others-card">
-          <div class="others-thumb apple">🍎</div>
-          <div class="others-info">
-            <div class="tag">オリジナル楽曲</div>
-            <div class="title">Apple Music</div>
-            <div class="desc">オリジナル楽曲を配信中</div>
-          </div>
-        </a>
-        <a href="https://open.spotify.com/intl-ja/artist/6sruQzkUWuZ383TDy26a9y" target="_blank" rel="noopener" class="others-card">
-          <div class="others-thumb spotify">🎵</div>
-          <div class="others-info">
-            <div class="tag">オリジナル楽曲</div>
-            <div class="title">Spotify</div>
-            <div class="desc">オリジナル楽曲を配信中</div>
-          </div>
-        </a>
-        <a href="https://music.youtube.com/channel/UC52dW1MCYl12DXSij5h4tqA" target="_blank" rel="noopener" class="others-card">
-          <div class="others-thumb ytmusic">▶</div>
-          <div class="others-info">
-            <div class="tag">オリジナル楽曲</div>
-            <div class="title">YouTube Music</div>
-            <div class="desc">オリジナル楽曲を配信中</div>
           </div>
         </a>
       </div>
@@ -535,12 +634,15 @@
         <span class="bar"></span>お問い合わせ
       </div>
       <p style="font-size:13px;">
-        楽譜のリクエスト・お仕事のご依頼などは各SNSのDMまでお気軽にどうぞ。
+        楽譜のリクエスト・お仕事のご依頼などはお気軽にどうぞ。
       </p>
       <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:14px;">
-        <a href="https://x.com/ABIA1989" target="_blank" rel="noopener" class="btn-more">𝕏 X (Twitter) DM</a>
-        <a href="https://www.instagram.com/abia_music" target="_blank" rel="noopener" class="btn-more">📷 Instagram DM</a>
+        <a href="https://docs.google.com/forms/d/e/1FAIpQLSedEitHCs44BrbSyLTpnIqLBs7Z9VbeFzb6OWOyc0BCvlGWoA/viewform?usp=publish-editor" target="_blank" rel="noopener" class="btn-subscribe" style="gap:6px;">✉ お問い合わせフォーム</a>
       </div>
+      <p style="font-size:12px; color:var(--muted); margin-top:12px;">SNS DMからもどうぞ →
+        <a href="https://x.com/ABIA1989" target="_blank" rel="noopener" style="color:var(--accent);">𝕏</a> ／
+        <a href="https://www.instagram.com/abia_music" target="_blank" rel="noopener" style="color:var(--accent);">Instagram</a>
+      </p>
     </section>
 
   </main>
@@ -557,6 +659,61 @@
     </div>
   </aside>
 </div>
+
+<script>
+(async function loadYouTubeVideos() {
+  const channelId = 'UCbpOQIf2qrJkLlQui__sTQQ';
+  const rssUrl = 'https://www.youtube.com/feeds/videos.xml?channel_id=' + channelId;
+  const proxyUrl = 'https://corsproxy.io/?' + encodeURIComponent(rssUrl);
+
+  try {
+    const res = await fetch(proxyUrl);
+    const text = await res.text();
+    const parser = new DOMParser();
+    const xml = parser.parseFromString(text, 'text/xml');
+    const candidates = Array.from(xml.querySelectorAll('entry')).slice(0, 15);
+
+    // #ShortsなしのショートIDはここに追加
+    const SHORTS_IDS = ['jq_ZbMLyq2g'];
+
+    const entries = candidates.filter(e => {
+      const title = e.querySelector('title').textContent;
+      const videoId = e.querySelector('videoId') ? e.querySelector('videoId').textContent
+                    : e.querySelector('id').textContent.split(':').pop();
+      return !/shorts/i.test(title) && !SHORTS_IDS.includes(videoId);
+    }).slice(0, 4);
+    if (!entries.length) return;
+
+    const grid = document.getElementById('video-grid');
+    grid.innerHTML = '';
+
+    entries.forEach(entry => {
+      const videoId = entry.querySelector('videoId') ? entry.querySelector('videoId').textContent
+                    : entry.querySelector('id').textContent.split(':').pop();
+      const title = entry.querySelector('title').textContent;
+      const link = 'https://www.youtube.com/watch?v=' + videoId;
+      const thumb = 'https://img.youtube.com/vi/' + videoId + '/mqdefault.jpg';
+      const published = entry.querySelector('published').textContent;
+      const date = new Date(published).toLocaleDateString('ja-JP', {year:'numeric', month:'long', day:'numeric'});
+
+      const card = document.createElement('a');
+      card.href = link;
+      card.target = '_blank';
+      card.rel = 'noopener';
+      card.className = 'video-card';
+      card.innerHTML =
+        '<div class="video-thumb"><img src="' + thumb + '" alt="' + title + '"></div>' +
+        '<div class="video-info">' +
+          '<div class="title">' + title + '</div>' +
+          '<div class="meta">' + date + '</div>' +
+        '</div>';
+      grid.appendChild(card);
+    });
+  } catch(e) {
+    console.log('YouTube読み込みエラー:', e);
+  }
+})();
+</script>
 
 <!-- FOOTER -->
 <footer>
