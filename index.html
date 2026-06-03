@@ -104,7 +104,6 @@
     @media (max-width: 700px) {
       .container { grid-template-columns: 1fr; }
       aside { display: none; }
-      .score-grid { grid-template-columns: repeat(2, 1fr); }
     }
 
     /* ── PROFILE CARD ── */
@@ -259,7 +258,7 @@
     /* ── SCORE GRID ── */
     .score-grid {
       display: grid;
-      grid-template-columns: repeat(5, 1fr);
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
       gap: 14px;
     }
     .score-card {
@@ -559,16 +558,6 @@
           <div class="score-info">
             <div class="title">中〜上級の楽譜一覧</div>
             <span class="level-badge" style="background:#e91e63;">中〜上級</span>
-            <div class="price" style="font-size:11px; color:var(--muted); margin-top:4px;">Piascoreで見る →</div>
-          </div>
-        </a>
-        <a href="https://store.piascore.com/search?c=2125&d=7" target="_blank" rel="noopener" class="score-card">
-          <div class="score-thumb" style="background:linear-gradient(135deg,#ede9f8,#d4cdf0); color:#7b68c8; font-size:20px; font-weight:700; flex-direction:column; gap:4px;">
-            🎹🎹<br><span style="font-size:16px;">連弾</span>
-          </div>
-          <div class="score-info">
-            <div class="title">連弾の楽譜一覧</div>
-            <span class="level-badge" style="background:#7b68c8;">連弾</span>
             <div class="price" style="font-size:11px; color:var(--muted); margin-top:4px;">Piascoreで見る →</div>
           </div>
         </a>
