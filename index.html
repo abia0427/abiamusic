@@ -669,37 +669,35 @@
 (async function loadYouTubeVideos() {
   const channelId = 'UCbpOQIf2qrJkLlQui__sTQQ';
   const rssUrl = 'https://www.youtube.com/feeds/videos.xml?channel_id=' + channelId;
-  const proxyUrl = 'https://corsproxy.io/?' + encodeURIComponent(rssUrl);
+  const apiUrl = 'https://api.rss2json.com/v1/api.json?rss_url=' + encodeURIComponent(rssUrl);
+
+  // #ShortsなしのショートIDはここに追加
+  const SHORTS_IDS = ['jq_ZbMLyq2g'];
+
+  const getId = (item) => {
+    if (item.guid && item.guid.includes(':')) return item.guid.split(':').pop();
+    try { return new URL(item.link).searchParams.get('v'); } catch { return ''; }
+  };
 
   try {
-    const res = await fetch(proxyUrl);
-    const text = await res.text();
-    const parser = new DOMParser();
-    const xml = parser.parseFromString(text, 'text/xml');
-    const candidates = Array.from(xml.querySelectorAll('entry')).slice(0, 15);
+    const res = await fetch(apiUrl);
+    const data = await res.json();
+    if (data.status !== 'ok' || !data.items || !data.items.length) return;
 
-    // #ShortsなしのショートIDはここに追加
-    const SHORTS_IDS = ['jq_ZbMLyq2g'];
-
-    const entries = candidates.filter(e => {
-      const title = e.querySelector('title').textContent;
-      const videoId = e.querySelector('videoId') ? e.querySelector('videoId').textContent
-                    : e.querySelector('id').textContent.split(':').pop();
-      return !/shorts/i.test(title) && !SHORTS_IDS.includes(videoId);
+    const entries = data.items.filter(item => {
+      return !/shorts/i.test(item.title) && !SHORTS_IDS.includes(getId(item));
     }).slice(0, 6);
     if (!entries.length) return;
 
     const grid = document.getElementById('video-grid');
     grid.innerHTML = '';
 
-    entries.forEach(entry => {
-      const videoId = entry.querySelector('videoId') ? entry.querySelector('videoId').textContent
-                    : entry.querySelector('id').textContent.split(':').pop();
-      const title = entry.querySelector('title').textContent;
-      const link = 'https://www.youtube.com/watch?v=' + videoId;
+    entries.forEach(item => {
+      const videoId = getId(item);
+      const title = item.title;
+      const link = item.link;
       const thumb = 'https://img.youtube.com/vi/' + videoId + '/mqdefault.jpg';
-      const published = entry.querySelector('published').textContent;
-      const date = new Date(published).toLocaleDateString('ja-JP', {year:'numeric', month:'long', day:'numeric'});
+      const date = new Date(item.pubDate.replace(' ', 'T')).toLocaleDateString('ja-JP', {year:'numeric', month:'long', day:'numeric'});
 
       const card = document.createElement('a');
       card.href = link;
