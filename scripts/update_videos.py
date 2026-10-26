@@ -54,6 +54,13 @@ def main():
         "updated": datetime.datetime.now(datetime.timezone.utc).isoformat(),
         "videos": videos,
     }
+    try:
+        with open("videos.json", encoding="utf-8") as f:
+            if json.load(f).get("videos") == videos:
+                print("動画に変更なし")
+                return
+    except Exception:
+        pass
     with open("videos.json", "w", encoding="utf-8") as f:
         json.dump(data, f, ensure_ascii=False, indent=2)
     print(f"wrote {len(videos)} videos")
