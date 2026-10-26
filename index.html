@@ -667,48 +667,28 @@
 
 <script>
 (async function loadYouTubeVideos() {
-  const channelId = 'UCbpOQIf2qrJkLlQui__sTQQ';
-  const rssUrl = 'https://www.youtube.com/feeds/videos.xml?channel_id=' + channelId;
-  const apiUrl = 'https://api.rss2json.com/v1/api.json?rss_url=' + encodeURIComponent(rssUrl);
-
-  // #ShortsなしのショートIDはここに追加
-  const SHORTS_IDS = ['jq_ZbMLyq2g'];
-
-  const getId = (item) => {
-    if (item.guid && item.guid.includes(':')) return item.guid.split(':').pop();
-    try { return new URL(item.link).searchParams.get('v'); } catch { return ''; }
-  };
-
+  // videos.json はサイト内に置かれ、GitHub Actionsが6時間ごとに最新へ更新する（同一オリジン取得=CORS/プロキシ不要）
   try {
-    const res = await fetch(apiUrl);
+    const res = await fetch('videos.json?t=' + Date.now());
     const data = await res.json();
-    if (data.status !== 'ok' || !data.items || !data.items.length) return;
-
-    const entries = data.items.filter(item => {
-      return !/shorts/i.test(item.title) && !SHORTS_IDS.includes(getId(item));
-    }).slice(0, 6);
+    const entries = (data.videos || []).slice(0, 6);
     if (!entries.length) return;
 
     const grid = document.getElementById('video-grid');
     grid.innerHTML = '';
 
     entries.forEach(item => {
-      const videoId = getId(item);
-      const title = item.title;
-      const link = item.link;
-      const thumb = 'https://img.youtube.com/vi/' + videoId + '/mqdefault.jpg';
-      const date = new Date(item.pubDate.replace(' ', 'T')).toLocaleDateString('ja-JP', {year:'numeric', month:'long', day:'numeric'});
-
+      const thumb = 'https://img.youtube.com/vi/' + item.videoId + '/mqdefault.jpg';
       const card = document.createElement('a');
-      card.href = link;
+      card.href = item.link;
       card.target = '_blank';
       card.rel = 'noopener';
       card.className = 'video-card';
       card.innerHTML =
-        '<div class="video-thumb"><img src="' + thumb + '" alt="' + title + '"></div>' +
+        '<div class="video-thumb"><img src="' + thumb + '" alt="' + item.title + '"></div>' +
         '<div class="video-info">' +
-          '<div class="title">' + title + '</div>' +
-          '<div class="meta">' + date + '</div>' +
+          '<div class="title">' + item.title + '</div>' +
+          '<div class="meta">' + item.date + '</div>' +
         '</div>';
       grid.appendChild(card);
     });
