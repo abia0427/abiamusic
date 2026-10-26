@@ -1,9 +1,9 @@
 name: Update latest videos
 
 on:
-  schedule:
-    - cron: "0 */6 * * *"   # 6時間ごと
-  workflow_dispatch:          # 手動実行も可能
+  # schedule:
+  #   - cron: "0 */6 * * *"   # クラウドIPがYouTubeに弾かれるため一旦停止
+  workflow_dispatch:          # 手動実行のみ
 
 permissions:
   contents: write
