@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """YouTubeのRSSから最新動画(ショート除外)を取得し videos.json に書き出す。
 GitHub Actionsから定期実行される。"""
-import urllib.request, re, json, datetime
+import urllib.request, re, json, datetime, time
 
 CHANNEL_ID = "UCbpOQIf2qrJkLlQui__sTQQ"
 # タイトルに #Shorts が付いていないショートはここにIDを追加
@@ -11,7 +11,16 @@ MAX_VIDEOS = 6
 def main():
     url = f"https://www.youtube.com/feeds/videos.xml?channel_id={CHANNEL_ID}"
     req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0"})
-    xml = urllib.request.urlopen(req, timeout=30).read().decode("utf-8")
+    xml = None
+    for attempt in range(4):
+        try:
+            xml = urllib.request.urlopen(req, timeout=30).read().decode("utf-8")
+            break
+        except Exception as ex:
+            print(f"retry {attempt+1}: {ex}")
+            time.sleep(5)
+    if xml is None:
+        raise SystemExit("RSS取得に失敗（videos.jsonは更新しません）")
     entries = re.findall(r"<entry>(.*?)</entry>", xml, re.S)
 
     def grab(pattern, text):
